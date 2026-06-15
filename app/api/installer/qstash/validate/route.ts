@@ -18,9 +18,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validar token fazendo uma requisição de listagem de schedules
-    // Endpoint US-East-1 (região obrigatória — outras regiões não são compatíveis)
-    const qstashRes = await fetch('https://qstash-us-east-1.upstash.io/v2/schedules', {
+    // Detecta a URL base do QStash a partir do JWT (campo iss)
+    // Evita falha para instâncias fora da região us-east-1
+    let qstashBaseUrl = 'https://qstash.upstash.io';
+    try {
+      const payloadB64 = token.split('.')[1];
+      if (payloadB64) {
+        const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
+        if (payload.iss && typeof payload.iss === 'string') {
+          qstashBaseUrl = payload.iss.replace(/\/$/, '');
+        }
+      }
+    } catch {
+      // JWT indecodificável: usa fallback genérico
+    }
+
+    const qstashRes = await fetch(`${qstashBaseUrl}/v2/schedules`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

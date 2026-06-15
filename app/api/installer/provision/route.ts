@@ -297,6 +297,18 @@ async function findOrCreateSupabaseProject(
   });
 
   if (!createResult.ok) {
+    // Limite de projetos free atingido
+    const errLower = String(createResult.error || '').toLowerCase();
+    if (
+      createResult.status === 403 &&
+      (errLower.includes('limit') || errLower.includes('maximum') || errLower.includes('2 project') || errLower.includes('active free'))
+    ) {
+      throw new Error(
+        'Limite de projetos gratuitos do Supabase atingido (máx. 2). ' +
+        'Acesse app.supabase.com, pause ou exclua um projeto existente e tente novamente.'
+      );
+    }
+
     // Handle race condition where name was taken between check and create
     if (createResult.status === 409) {
       // Try with timestamp suffix as fallback
@@ -508,6 +520,12 @@ export async function POST(req: Request) {
           title: step4.title,
           subtitle: `Células se multiplicando... (${Math.round(fraction * 100)}%)`,
         });
+      }
+      if (Date.now() - startTime >= timeoutMs) {
+        throw new Error(
+          'Projeto Supabase demorou mais que 3 minutos para ficar pronto. ' +
+          'Verifique o status em app.supabase.com e tente novamente.'
+        );
       }
       console.log('[provision] ✅ Step 4/12: Wait for Supabase Ready - COMPLETO', { elapsed: Date.now() - startTime });
       stepIndex++;
