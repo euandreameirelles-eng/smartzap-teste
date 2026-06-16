@@ -117,18 +117,29 @@ function TutorialWizard({
         );
       case 'credentials':
         return (
-          <DirectCredentialsStep
-            credentials={credentials}
-            onCredentialsChange={setCredentials}
-            onComplete={async () => {
-              // Salva credenciais se callback disponível
-              if (onSaveCredentials) {
-                await onSaveCredentials(credentials);
-              }
-              handleNext();
-            }}
-            onBack={handleBack}
-          />
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-zinc-500">Passo {stepNumber} de {totalSteps}</p>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
+              >
+                Pular esta etapa →
+              </button>
+            </div>
+            <DirectCredentialsStep
+              credentials={credentials}
+              onCredentialsChange={setCredentials}
+              onComplete={async () => {
+                if (onSaveCredentials) {
+                  await onSaveCredentials(credentials);
+                }
+                handleNext();
+              }}
+              onBack={handleBack}
+            />
+          </div>
         );
       case 'configure-webhook':
         return (
