@@ -53,6 +53,11 @@ const colorStyles = {
     iconColor: "text-emerald-600 dark:text-emerald-400",
     iconGlow: "shadow-emerald-500/20",
   },
+  teal: {
+    iconBg: "bg-teal-500/20",
+    iconColor: "text-teal-600 dark:text-teal-400",
+    iconGlow: "shadow-teal-500/20",
+  },
   blue: {
     iconBg: "bg-blue-500/20",
     iconColor: "text-blue-600 dark:text-blue-400",
