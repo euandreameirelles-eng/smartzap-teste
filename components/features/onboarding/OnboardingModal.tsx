@@ -386,6 +386,15 @@ export function OnboardingModal({ isConnected, onSaveCredentials, onMarkComplete
 
   if (!shouldShow) return null;
 
+  const handleSkip = async () => {
+    try {
+      await onMarkComplete();
+    } catch {
+      // ignora erro de DB — segue para completeOnboarding de qualquer forma
+    }
+    completeOnboarding();
+  };
+
   return (
     <Dialog open={true}>
       <DialogContent
@@ -398,22 +407,42 @@ export function OnboardingModal({ isConnected, onSaveCredentials, onMarkComplete
         {currentStep === 'welcome' ? (
           <>
             <DialogHeader className="text-center pb-2">
+              <div className="flex justify-end mb-1">
+                <button
+                  type="button"
+                  onClick={handleSkip}
+                  className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
+                >
+                  Pular por agora
+                </button>
+              </div>
               <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-500 flex items-center justify-center shadow-lg">
                   <span className="text-3xl">🚀</span>
                 </div>
               </div>
-              <DialogTitle className="text-2xl">Bem-vindo ao SmartZap!</DialogTitle>
+              <DialogTitle className="text-2xl">Bem-vindo ao OdontoZap!</DialogTitle>
               <DialogDescription className="text-base mt-2">
                 Para enviar mensagens pelo WhatsApp, você precisa conectar uma conta do WhatsApp Business API.
               </DialogDescription>
             </DialogHeader>
           </>
         ) : (
-          <DialogHeader className="sr-only">
-            <DialogTitle>Configuração do WhatsApp</DialogTitle>
-            <DialogDescription>Configure sua conta do WhatsApp Business API</DialogDescription>
-          </DialogHeader>
+          <>
+            <DialogHeader className="sr-only">
+              <DialogTitle>Configuração do WhatsApp</DialogTitle>
+              <DialogDescription>Configure sua conta do WhatsApp Business API</DialogDescription>
+            </DialogHeader>
+            <div className="flex justify-end mb-2">
+              <button
+                type="button"
+                onClick={handleSkip}
+                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-2"
+              >
+                Pular por agora
+              </button>
+            </div>
+          </>
         )}
 
         {renderStep()}
