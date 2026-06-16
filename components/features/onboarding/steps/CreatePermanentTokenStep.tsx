@@ -70,9 +70,9 @@ export function CreatePermanentTokenStep({
       return;
     }
 
-    if (!permanentToken.startsWith('EAA')) {
+    if (!permanentToken.startsWith('EAA') && !permanentToken.startsWith('EAG')) {
       toast.error('Token inválido', {
-        description: 'O token deve começar com "EAA"',
+        description: 'O token deve começar com "EAA" ou "EAG"',
       });
       return;
     }
@@ -292,13 +292,13 @@ export function CreatePermanentTokenStep({
         </Label>
         <Input
           type="password"
-          placeholder="EAAG..."
+          placeholder="EAA... ou EAG..."
           value={permanentToken}
           onChange={(e) => setPermanentToken(e.target.value)}
           className="font-mono"
         />
         <p className="text-xs text-zinc-500">
-          O token começa com "EAA" e tem centenas de caracteres
+          O token começa com "EAA" ou "EAG" e tem centenas de caracteres
         </p>
       </div>
 
