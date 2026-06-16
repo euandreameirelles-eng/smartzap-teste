@@ -340,9 +340,7 @@ const ExpandedSidebar = memo(function ExpandedSidebar({
               className="w-9 h-9 rounded-full bg-[var(--ds-bg-surface)] border border-[var(--ds-border-default)] flex items-center justify-center overflow-hidden"
               aria-hidden="true"
             >
-              <span className="text-lg font-bold text-primary-600 dark:text-primary-400">
-                {(companyName || 'BlueTick').charAt(0).toUpperCase()}
-              </span>
+              <img src="/logo-bluetick.png" alt="BlueTick" className="w-8 h-8 object-contain" />
             </div>
             <div className="flex-1 min-w-0 text-left">
               <p className="text-sm font-medium text-[var(--ds-text-primary)] truncate">{companyName || 'BlueTick'}</p>
