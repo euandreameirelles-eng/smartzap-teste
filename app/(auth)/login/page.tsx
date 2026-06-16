@@ -100,8 +100,8 @@ function LoginForm() {
     <div className="w-full max-w-md">
       {/* Logo */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-blue-600 mb-4">
-          <span className="text-3xl font-bold text-white">O</span>
+        <div className="inline-flex items-center justify-center w-16 h-16 mb-4">
+          <img src="/logo-bluetick.png" alt="BlueTick" className="w-16 h-16 object-contain" />
         </div>
         <h1 className="text-2xl font-bold text-[var(--ds-text-primary)]">
           {companyName || 'BlueTick'}
