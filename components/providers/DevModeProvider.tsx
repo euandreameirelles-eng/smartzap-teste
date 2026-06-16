@@ -9,7 +9,7 @@ interface DevModeContextValue {
 
 const DevModeContext = createContext<DevModeContextValue | null>(null)
 
-const STORAGE_KEY = 'smartzap:devMode'
+const STORAGE_KEY = 'bluetick:devMode'
 
 export function DevModeProvider({ children }: { children: React.ReactNode }) {
   const [isDevMode, setIsDevMode] = useState(false)

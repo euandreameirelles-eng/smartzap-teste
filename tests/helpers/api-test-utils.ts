@@ -36,7 +36,7 @@ export function createApiRequest(url: string, options?: {
   if (cookie !== undefined) {
     defaultHeaders['cookie'] = cookie
   } else {
-    defaultHeaders['cookie'] = 'smartzap_session=test-session'
+    defaultHeaders['cookie'] = 'bluetick_session=test-session'
   }
 
   return new Request(fullUrl.toString(), {

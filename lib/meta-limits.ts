@@ -412,7 +412,7 @@ function formatDuration(seconds: number): string {
 
 // ===== STORAGE =====
 
-export const LIMITS_STORAGE_KEY = 'smartzap_account_limits';
+export const LIMITS_STORAGE_KEY = 'bluetick_account_limits';
 
 /**
  * Obtém limites cacheados do `localStorage`.

@@ -43,10 +43,10 @@ export async function POST(req: NextRequest) {
     const projectsData = await projectsRes.json();
     const projects = projectsData.projects || [];
 
-    // 2. Tentar detectar projeto SmartZap
-    // Prioridade: nome contém "smartzap", ou primeiro projeto encontrado
+    // 2. Tentar detectar projeto BlueTick
+    // Prioridade: nome contém "bluetick", ou primeiro projeto encontrado
     let detectedProject = projects.find((p: { name: string }) =>
-      p.name.toLowerCase().includes('smartzap')
+      p.name.toLowerCase().includes('bluetick')
     );
 
     // Se não encontrou por nome, pega o primeiro

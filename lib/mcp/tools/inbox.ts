@@ -5,7 +5,7 @@ import { ok, err } from '@/lib/mcp/helpers'
 
 const getDb = () => getSupabaseAdmin()!
 const baseUrl = () => process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-const apiKey = () => process.env.SMARTZAP_API_KEY ?? ''
+const apiKey = () => process.env.BLUETICK_API_KEY ?? ''
 
 export function registerInboxTools(server: McpServer) {
   // ─── sz.inbox.list ───────────────────────────────────────────────────────

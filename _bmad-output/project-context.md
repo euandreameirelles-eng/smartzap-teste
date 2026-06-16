@@ -1,5 +1,5 @@
 ---
-project_name: 'smartzap'
+project_name: 'bluetick'
 user_name: 'Thales'
 date: '2026-02-08'
 sections_completed: ['technology_stack', 'language_rules', 'framework_rules', 'testing_rules', 'code_quality', 'workflow_rules', 'critical_rules']
@@ -126,8 +126,8 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 - Dashboard: `MASTER_PASSWORD` (bcrypt)
 - API: `Authorization: Bearer <key>` ou `X-API-Key: <key>`
-  - `SMARTZAP_API_KEY` — acesso geral
-  - `SMARTZAP_ADMIN_KEY` — endpoints admin (`/api/database/*`, `/api/vercel/*`)
+  - `BLUETICK_API_KEY` — acesso geral
+  - `BLUETICK_ADMIN_KEY` — endpoints admin (`/api/database/*`, `/api/vercel/*`)
 - Endpoints públicos (sem auth): `/api/webhook`, `/api/health`, `/api/flows`
 - Auth enforced per-route via `verifyApiKey()` / `requireSessionOrApiKey()` — NÃO existe middleware.ts
 
@@ -219,7 +219,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 - Branch principal: `main`
 - Deploy: Vercel (automático via push para `main`)
-- URL produção: `https://smartzap-eta.vercel.app`
+- URL produção: `https://bluetick-eta.vercel.app`
 
 #### Environment Variables
 
@@ -270,7 +270,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - `poweredByHeader: false` — não expor framework
 - Security headers configurados em `next.config.ts` (X-Frame-Options, HSTS, etc.)
 - Passwords comparados com bcrypt — NUNCA plain text
-- API keys validadas por comparação direta (sem hash) — `SMARTZAP_API_KEY` e `SMARTZAP_ADMIN_KEY`
+- API keys validadas por comparação direta (sem hash) — `BLUETICK_API_KEY` e `BLUETICK_ADMIN_KEY`
 - Webhooks (`/api/webhook`) são públicos — validação deve ser feita no payload
 
 #### WhatsApp API

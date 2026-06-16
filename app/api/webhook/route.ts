@@ -390,7 +390,7 @@ function extractConfirmationConfigFromSpec(spec: unknown): {
 function extractMetaFlowIdFromSmartzapToken(flowToken: string | null): string | null {
   const raw = String(flowToken || '').trim()
   if (!raw) return null
-  const m = raw.match(/^smartzap:(\d{6,25}):/)
+  const m = raw.match(/^bluetick:(\d{6,25}):/)
   return m?.[1] || null
 }
 
@@ -1108,7 +1108,7 @@ export async function POST(request: NextRequest) {
               }
               const campaignId = extractCampaignIdFromFlowToken(flowToken)
 
-              // Best-effort: mapping para campos do SmartZap
+              // Best-effort: mapping para campos do BlueTick
               let flowLocalId: string | null = null
               let mappedData: Record<string, unknown> | null = null
               let mappedAt: string | null = null

@@ -18,7 +18,7 @@ import {
   clearAllEvents,
 } from './event-stats'
 
-const STORAGE_KEY = 'smartzap_campaign_events'
+const STORAGE_KEY = 'bluetick_campaign_events'
 
 beforeEach(() => {
   localStorage.clear()

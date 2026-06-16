@@ -13,9 +13,9 @@ export function getWebhookStatus(
 
   // Level 1: Phone number override
   if (config?.phone_number) {
-    const isSmartZap = config.phone_number === activeUrl;
+    const isBlueTick = config.phone_number === activeUrl;
     return {
-      status: isSmartZap ? 'smartzap' : 'other',
+      status: isBlueTick ? 'bluetick' : 'other',
       url: config.phone_number,
       level: 1,
       levelName: 'NÚMERO',
@@ -70,7 +70,7 @@ export function getWebhookFunnelLevels(
       name: 'NÚMERO',
       url: config?.phone_number || null,
       isActive: activeStatus.level === 1,
-      isSmartZap: config?.phone_number === activeUrl,
+      isBlueTick: config?.phone_number === activeUrl,
       color: 'emerald',
       description: 'Override específico deste número',
     },
@@ -79,7 +79,7 @@ export function getWebhookFunnelLevels(
       name: 'WABA',
       url: config?.whatsapp_business_account || null,
       isActive: activeStatus.level === 2,
-      isSmartZap: config?.whatsapp_business_account === activeUrl,
+      isBlueTick: config?.whatsapp_business_account === activeUrl,
       color: 'blue',
       description: 'Override da conta comercial',
     },
@@ -88,7 +88,7 @@ export function getWebhookFunnelLevels(
       name: 'APP',
       url: config?.application || null,
       isActive: activeStatus.level === 3,
-      isSmartZap: config?.application === activeUrl,
+      isBlueTick: config?.application === activeUrl,
       color: 'zinc',
       description: 'Padrão do Meta Dashboard',
       isLocked: true,
@@ -102,7 +102,7 @@ export function getWebhookFunnelLevels(
 export function getCardColor(
   webhookStatus: WebhookStatus
 ): 'emerald' | 'amber' | 'blue' | 'zinc' {
-  if (webhookStatus.status === 'smartzap') return 'emerald';
+  if (webhookStatus.status === 'bluetick') return 'emerald';
   if (webhookStatus.status === 'other') return 'amber';
   if (webhookStatus.level === 2) return 'blue';
   return 'zinc';

@@ -895,6 +895,6 @@ describe('Storage functions', () => {
 
 describe('LIMITS_STORAGE_KEY', () => {
   it('should be the expected key', () => {
-    expect(LIMITS_STORAGE_KEY).toBe('smartzap_account_limits')
+    expect(LIMITS_STORAGE_KEY).toBe('bluetick_account_limits')
   })
 })

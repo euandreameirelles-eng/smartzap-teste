@@ -395,7 +395,7 @@ export const useCampaignNewController = () => {
         configuredContact?.phone ||
         testContactQuery.data?.phone ||
         '+5511999990001',
-      email: preferredContact?.email || 'contato@smartzap.com',
+      email: preferredContact?.email || 'contato@bluetick.com',
     } as Record<string, string>
     customFieldKeys.forEach((key) => {
       base[key] = base[key] || 'valor'

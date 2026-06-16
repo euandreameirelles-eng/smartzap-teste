@@ -3,8 +3,8 @@ import { z } from 'zod'
 import { ok, err } from '@/lib/mcp/helpers'
 
 const baseUrl = () => process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-const adminKey = () => process.env.SMARTZAP_ADMIN_KEY ?? ''
-const apiKey = () => process.env.SMARTZAP_API_KEY ?? ''
+const adminKey = () => process.env.BLUETICK_ADMIN_KEY ?? ''
+const apiKey = () => process.env.BLUETICK_API_KEY ?? ''
 
 export function registerSettingsTools(server: McpServer) {
   // ─── sz.settings.get_whatsapp ─────────────────────────────────────────────
@@ -228,8 +228,8 @@ export function registerSettingsTools(server: McpServer) {
     {
       title: 'Assinar webhook WhatsApp',
       description:
-        'Registra o SmartZap como receptor de eventos WhatsApp na Meta. ' +
-        'Usa a URL do SmartZap automaticamente se callbackUrl for omitido. ' +
+        'Registra o BlueTick como receptor de eventos WhatsApp na Meta. ' +
+        'Usa a URL do BlueTick automaticamente se callbackUrl for omitido. ' +
         'Requer que as credenciais WhatsApp já estejam configuradas (set_whatsapp). ' +
         'URLs localhost são rejeitadas pela Meta — use uma URL pública.',
       inputSchema: {
@@ -238,7 +238,7 @@ export function registerSettingsTools(server: McpServer) {
           .url()
           .optional()
           .describe(
-            'URL pública do webhook (opcional — se omitida, usa a URL auto-detectada do SmartZap via VERCEL_PROJECT_PRODUCTION_URL ou NEXT_PUBLIC_APP_URL)'
+            'URL pública do webhook (opcional — se omitida, usa a URL auto-detectada do BlueTick via VERCEL_PROJECT_PRODUCTION_URL ou NEXT_PUBLIC_APP_URL)'
           ),
       },
     },

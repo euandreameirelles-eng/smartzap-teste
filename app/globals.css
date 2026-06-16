@@ -30,7 +30,7 @@
   --ds-text-3xl: 1.875rem;
   --ds-text-4xl: 2.25rem;
 
-  /* DS - Brand colors (Azul - identidade OdontoZap) */
+  /* DS - Brand colors (Azul - identidade BlueTick) */
   --ds-brand-primary: #00B4FF;
   --ds-brand-primary-hover: #0D6EFD;
   --ds-brand-primary-muted: rgba(0, 180, 255, 0.1);
@@ -146,7 +146,7 @@
   --color-gray-900: #18181b;
   --color-gray-950: #09090b;
 
-  /* Azul (OdontoZap - identidade visual) */
+  /* Azul (BlueTick - identidade visual) */
   --color-primary-50: #eff8ff;
   --color-primary-100: #dff0ff;
   --color-primary-200: #b8e1ff;

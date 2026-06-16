@@ -31,8 +31,8 @@ describe('auth', () => {
     // Copia env original e configura chaves de teste
     process.env = {
       ...ORIGINAL_ENV,
-      SMARTZAP_API_KEY: 'test-api-key-123',
-      SMARTZAP_ADMIN_KEY: 'test-admin-key-456',
+      BLUETICK_API_KEY: 'test-api-key-123',
+      BLUETICK_ADMIN_KEY: 'test-admin-key-456',
     }
   })
 
@@ -114,8 +114,8 @@ describe('auth', () => {
 
     it('deve priorizar admin key quando ambas conferem', async () => {
       // Se a mesma chave for configurada como admin E api, admin deve ter prioridade
-      process.env.SMARTZAP_API_KEY = 'same-key'
-      process.env.SMARTZAP_ADMIN_KEY = 'same-key'
+      process.env.BLUETICK_API_KEY = 'same-key'
+      process.env.BLUETICK_ADMIN_KEY = 'same-key'
 
       const req = createFakeRequest({
         authorization: 'Bearer same-key',
@@ -127,8 +127,8 @@ describe('auth', () => {
     })
 
     it('deve rejeitar quando env vars nao estao configuradas', async () => {
-      delete process.env.SMARTZAP_API_KEY
-      delete process.env.SMARTZAP_ADMIN_KEY
+      delete process.env.BLUETICK_API_KEY
+      delete process.env.BLUETICK_ADMIN_KEY
 
       const req = createFakeRequest({
         authorization: 'Bearer qualquer-coisa',

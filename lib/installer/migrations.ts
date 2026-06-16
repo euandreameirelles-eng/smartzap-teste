@@ -70,7 +70,7 @@ async function waitForStorageReady(client: Client, opts?: { timeoutMs?: number; 
 }
 
 function shouldWaitForStorage(): boolean {
-  return process.env.SMARTZAP_WAIT_STORAGE === 'true';
+  return process.env.BLUETICK_WAIT_STORAGE === 'true';
 }
 
 /**

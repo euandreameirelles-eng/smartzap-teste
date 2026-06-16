@@ -1,11 +1,11 @@
-# Test Design for QA: SmartZap Platform
+# Test Design for QA: BlueTick Platform
 
 **Objetivo:** Receita de execucao de testes para o time de QA. Define o que testar, como testar e o que QA precisa dos outros times.
 
 **Data:** 2026-02-08
 **Autor:** Murat (TEA Master Test Architect)
 **Status:** Rascunho
-**Projeto:** SmartZap
+**Projeto:** BlueTick
 
 **Relacionado:** Ver documento de Arquitetura (`test-design-architecture.md`) para preocupacoes de testabilidade e blockers arquiteturais.
 
@@ -13,7 +13,7 @@
 
 ## Resumo Executivo
 
-**Escopo:** Cobertura de testes completa da plataforma SmartZap -- todas as features criticas incluindo envio de campanhas WhatsApp, inbox real-time, workflow builder, AI agents, template management, gestao de contatos, flows/MiniApps, lead forms, autenticacao e webhooks.
+**Escopo:** Cobertura de testes completa da plataforma BlueTick -- todas as features criticas incluindo envio de campanhas WhatsApp, inbox real-time, workflow builder, AI agents, template management, gestao de contatos, flows/MiniApps, lead forms, autenticacao e webhooks.
 
 **Resumo de Riscos:**
 
@@ -191,7 +191,7 @@ export function createMockContact(overrides: Partial<Contact> = {}): Contact {
 | **P0-004** | Webhook processing: eventos de status (sent/delivered/read/failed) atualizam contadores corretamente | API | R-04, R-07 | Incluir eventos fora de ordem |
 | **P0-005** | Webhook deduplicacao: mesmo evento recebido 2x nao duplica em `whatsapp_status_events` | API | R-04 | Validar `dedupe_key` unique constraint |
 | **P0-006** | Auth: todas as rotas nao-publicas retornam 401 sem auth header | Unit + API | R-03 | Script automatizado de scan de rotas |
-| **P0-007** | Auth: rotas admin retornam 403 com `SMARTZAP_API_KEY` (precisa de `SMARTZAP_ADMIN_KEY`) | API | R-03 | Testar `/api/database/*`, `/api/vercel/*` |
+| **P0-007** | Auth: rotas admin retornam 403 com `BLUETICK_API_KEY` (precisa de `BLUETICK_ADMIN_KEY`) | API | R-03 | Testar `/api/database/*`, `/api/vercel/*` |
 | **P0-008** | Login dashboard: senha correta autentica; senha incorreta rejeita | E2E | R-03 | bcrypt comparison com `MASTER_PASSWORD` |
 | **P0-009** | Supabase null safety: rotas retornam 503 quando env vars ausentes | Unit | R-06 | Testar `getSupabaseAdmin()` retornando null |
 | **P0-010** | Cancelamento de campanha: interrompe envio e marca status corretamente | API | R-07 | Cancelar campanha mid-batch |

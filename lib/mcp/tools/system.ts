@@ -6,7 +6,7 @@ import { ok, err } from '@/lib/mcp/helpers'
 
 const getDb = () => getSupabaseAdmin()!
 const baseUrl = () => process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-const apiKey = () => process.env.SMARTZAP_API_KEY ?? ''
+const apiKey = () => process.env.BLUETICK_API_KEY ?? ''
 
 export function registerSystemTools(server: McpServer) {
   // ─── sz.health.check ─────────────────────────────────────────────────────
@@ -92,7 +92,7 @@ export function registerSystemTools(server: McpServer) {
     },
     async ({ limit }) => {
       const ctx = getMcpContext()
-      if (!ctx.isAdmin) return err('Requer chave admin (SMARTZAP_ADMIN_KEY)')
+      if (!ctx.isAdmin) return err('Requer chave admin (BLUETICK_ADMIN_KEY)')
 
       const db = getDb()
       if (!db) return err('Banco não configurado')
@@ -125,7 +125,7 @@ export function registerSystemTools(server: McpServer) {
     },
     async ({ campaignId, status, limit }) => {
       const ctx = getMcpContext()
-      if (!ctx.isAdmin) return err('Requer chave admin (SMARTZAP_ADMIN_KEY)')
+      if (!ctx.isAdmin) return err('Requer chave admin (BLUETICK_ADMIN_KEY)')
 
       const db = getDb()
       if (!db) return err('Banco não configurado')
@@ -177,7 +177,7 @@ export function registerSystemTools(server: McpServer) {
     },
     async ({ total, concurrency, turns }) => {
       const ctx = getMcpContext()
-      if (!ctx.isAdmin) return err('Requer chave admin (SMARTZAP_ADMIN_KEY)')
+      if (!ctx.isAdmin) return err('Requer chave admin (BLUETICK_ADMIN_KEY)')
 
       const db = getDb()
       if (!db) return err('Banco não configurado')
@@ -384,11 +384,11 @@ export function registerSystemTools(server: McpServer) {
     },
     async () => {
       const ctx = getMcpContext()
-      if (!ctx.isAdmin) return err('Requer chave admin (SMARTZAP_ADMIN_KEY)')
+      if (!ctx.isAdmin) return err('Requer chave admin (BLUETICK_ADMIN_KEY)')
 
       const res = await fetch(`${baseUrl()}/api/settings/test-connection`, {
         method: 'POST',
-        headers: { 'x-api-key': process.env.SMARTZAP_ADMIN_KEY ?? '' },
+        headers: { 'x-api-key': process.env.BLUETICK_ADMIN_KEY ?? '' },
       })
       const body = await res.json().catch(() => ({}))
       if (!res.ok) return err(body.error ?? `HTTP ${res.status}`)

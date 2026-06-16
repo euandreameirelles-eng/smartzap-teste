@@ -1,10 +1,10 @@
 import { Campaign, Contact, CampaignStatus, ContactStatus, AppSettings, Message, MessageStatus, Template, TemplateStatus } from '../types';
 
 const KEYS = {
-  CAMPAIGNS: 'smartzap_campaigns',
-  CONTACTS: 'smartzap_contacts',
-  SETTINGS: 'smartzap_settings',
-  TEMPLATES: 'smartzap_templates',
+  CAMPAIGNS: 'bluetick_campaigns',
+  CONTACTS: 'bluetick_contacts',
+  SETTINGS: 'bluetick_settings',
+  TEMPLATES: 'bluetick_templates',
 };
 
 // Mapa de migração: valores antigos em inglês → novos em português

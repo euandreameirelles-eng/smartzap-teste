@@ -680,8 +680,8 @@ export function useCalendarBooking({
           start: start.toISOString(),
           end: end.toISOString(),
           timeZone: selectedCalendarTimeZone,
-          summary: 'Teste SmartZap',
-          description: 'Evento de teste criado pelo SmartZap.',
+          summary: 'Teste BlueTick',
+          description: 'Evento de teste criado pelo BlueTick.',
         }),
       });
       const data = await response.json().catch(() => ({}));

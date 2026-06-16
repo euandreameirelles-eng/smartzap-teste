@@ -18,7 +18,7 @@ async function checkMasterPassword(token: string, stored: string): Promise<boole
   const isHashed = stored.length === 64 && /^[a-f0-9]+$/i.test(stored)
   if (!isHashed) return token === stored
   const encoder = new TextEncoder()
-  const data = encoder.encode(token + '_smartzap_salt_2026')
+  const data = encoder.encode(token + '_bluetick_salt_2026')
   const buf = await crypto.subtle.digest('SHA-256', data)
   const hashed = Array.from(new Uint8Array(buf))
     .map((b) => b.toString(16).padStart(2, '0'))
@@ -28,8 +28,8 @@ async function checkMasterPassword(token: string, stored: string): Promise<boole
 
 // Valida o token e retorna o contexto de admin ou null se inválido
 async function resolveToken(token: string): Promise<{ isAdmin: boolean } | null> {
-  const adminKey = process.env.SMARTZAP_ADMIN_KEY
-  const apiKey = process.env.SMARTZAP_API_KEY
+  const adminKey = process.env.BLUETICK_ADMIN_KEY
+  const apiKey = process.env.BLUETICK_API_KEY
   const masterPassword = process.env.MASTER_PASSWORD
 
   if (adminKey && token === adminKey) return { isAdmin: true }

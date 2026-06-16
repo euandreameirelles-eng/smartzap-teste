@@ -1,5 +1,5 @@
 /**
- * SmartZap Design System - Border Tokens
+ * BlueTick Design System - Border Tokens
  *
  * Sistema de bordas incluindo:
  * - Border widths

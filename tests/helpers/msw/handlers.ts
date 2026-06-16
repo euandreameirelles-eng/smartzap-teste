@@ -65,7 +65,7 @@ const listTemplatesHandler = http.get(
           components: [
             { type: 'HEADER', format: 'TEXT', text: 'Promoção {{1}}' },
             { type: 'BODY', text: '{{1}}, aproveite: {{2}}!' },
-            { type: 'FOOTER', text: 'SmartZap' },
+            { type: 'FOOTER', text: 'BlueTick' },
           ],
         },
       ],
@@ -113,7 +113,7 @@ const phoneNumberInfoHandler = http.get(
     return HttpResponse.json({
       id: phoneNumberId,
       display_phone_number: '+55 11 99999-9999',
-      verified_name: 'SmartZap Test',
+      verified_name: 'BlueTick Test',
       quality_rating: 'GREEN',
       platform_type: 'CLOUD_API',
       throughput: { level: 'STANDARD' },
@@ -133,7 +133,7 @@ const subscribedAppsHandler = http.get(
           whatsapp_business_api_data: {
             id: 'app_001',
             link: 'https://www.facebook.com/app/001',
-            name: 'SmartZap',
+            name: 'BlueTick',
           },
         },
       ],

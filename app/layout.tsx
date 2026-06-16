@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'OdontoZap - WhatsApp Manager',
+  title: 'BlueTick - WhatsApp Manager',
   description: 'Plataforma de automação de marketing via WhatsApp para clínicas odontológicas',
   manifest: '/manifest.json',
   icons: {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'OdontoZap',
+    title: 'BlueTick',
   },
   formatDetection: {
     telephone: false,

@@ -30,34 +30,34 @@ function findActiveLevel(
 ): {
   level: '#1 Número' | '#2 WABA' | '#3 APP' | null;
   url: string | null;
-  isSmartZap: boolean;
+  isBlueTick: boolean;
 } {
-  if (!hierarchy) return { level: null, url: null, isSmartZap: false };
+  if (!hierarchy) return { level: null, url: null, isBlueTick: false };
 
   // Prioridade: #1 Phone > #2 WABA > #3 APP
   if (hierarchy.phoneNumberOverride) {
     return {
       level: '#1 Número',
       url: hierarchy.phoneNumberOverride,
-      isSmartZap: urlsMatch(hierarchy.phoneNumberOverride, expectedUrl),
+      isBlueTick: urlsMatch(hierarchy.phoneNumberOverride, expectedUrl),
     };
   }
   if (hierarchy.wabaOverride) {
     return {
       level: '#2 WABA',
       url: hierarchy.wabaOverride,
-      isSmartZap: urlsMatch(hierarchy.wabaOverride, expectedUrl),
+      isBlueTick: urlsMatch(hierarchy.wabaOverride, expectedUrl),
     };
   }
   if (hierarchy.appWebhook) {
     return {
       level: '#3 APP',
       url: hierarchy.appWebhook,
-      isSmartZap: urlsMatch(hierarchy.appWebhook, expectedUrl),
+      isBlueTick: urlsMatch(hierarchy.appWebhook, expectedUrl),
     };
   }
 
-  return { level: null, url: null, isSmartZap: false };
+  return { level: null, url: null, isBlueTick: false };
 }
 
 /**
@@ -107,11 +107,11 @@ export function WebhookStatusIndicator({
   }
 
   // Analisa hierarquia completa
-  const expectedUrl = webhookSubscription.smartzapWebhookUrl;
+  const expectedUrl = webhookSubscription.bluetickWebhookUrl;
   const active = findActiveLevel(webhookSubscription.hierarchy, expectedUrl);
 
-  // URL do SmartZap configurada = sucesso
-  if (active.isSmartZap) {
+  // URL do BlueTick configurada = sucesso
+  if (active.isBlueTick) {
     return (
       <div className="px-4 py-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg space-y-3">
         <div className="flex items-center justify-between gap-3">
@@ -147,7 +147,7 @@ export function WebhookStatusIndicator({
     );
   }
 
-  // Problema - URL não é do SmartZap ou não existe
+  // Problema - URL não é do BlueTick ou não existe
   return (
     <div className="px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-lg space-y-3">
       {/* Header */}

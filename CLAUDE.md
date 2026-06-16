@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-SmartZap é um SaaS single-tenant de automação de marketing via WhatsApp, construído com Next.js 16 (App Router), React 19, Supabase (PostgreSQL) e Upstash QStash. Integra Meta WhatsApp Cloud API (v24.0) para mensagens com template e Vercel AI SDK v6 para geração de conteúdo.
+BlueTick é um SaaS single-tenant de automação de marketing via WhatsApp, construído com Next.js 16 (App Router), React 19, Supabase (PostgreSQL) e Upstash QStash. Integra Meta WhatsApp Cloud API (v24.0) para mensagens com template e Vercel AI SDK v6 para geração de conteúdo.
 
 ## Development Commands
 
@@ -103,15 +103,15 @@ ThemeProvider (next-themes, dark default)
 
 Single-tenant: no user accounts. Two auth mechanisms:
 
-- **Dashboard login**: `MASTER_PASSWORD` env var — aceita texto puro (novas instalações) ou hash SHA-256 com salt `_smartzap_salt_2026` (retrocompatível). O sistema auto-detecta pelo comprimento (64 chars hex = hash).
+- **Dashboard login**: `MASTER_PASSWORD` env var — aceita texto puro (novas instalações) ou hash SHA-256 com salt `_bluetick_salt_2026` (retrocompatível). O sistema auto-detecta pelo comprimento (64 chars hex = hash).
 - **API routes**: `Authorization: Bearer <key>` or `X-API-Key: <key>` header
-  - `SMARTZAP_API_KEY` — general API access
-  - `SMARTZAP_ADMIN_KEY` — admin endpoints (`/api/database/*`, `/api/vercel/*`)
+  - `BLUETICK_API_KEY` — general API access
+  - `BLUETICK_ADMIN_KEY` — admin endpoints (`/api/database/*`, `/api/vercel/*`)
   - Public (no auth): `/api/webhook`, `/api/health`, `/api/flows`
 
 No middleware.ts — auth enforced per-route via `verifyApiKey()` from `lib/auth.ts`.
 
-Sessions (dashboard): múltiplas sessões simultâneas suportadas. Tokens persistidos em `settings.key = 'session_tokens'` como JSON array (máx 50). Cookie httpOnly `smartzap_session`, TTL 7 dias.
+Sessions (dashboard): múltiplas sessões simultâneas suportadas. Tokens persistidos em `settings.key = 'session_tokens'` como JSON array (máx 50). Cookie httpOnly `bluetick_session`, TTL 7 dias.
 
 ### Supabase Client Types
 
@@ -248,7 +248,7 @@ Required:
 - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`
 - `QSTASH_TOKEN`
 - `MASTER_PASSWORD` (login password)
-- `SMARTZAP_API_KEY`, `SMARTZAP_ADMIN_KEY`
+- `BLUETICK_API_KEY`, `BLUETICK_ADMIN_KEY`
 
 Optional:
 - `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_ID`, `WHATSAPP_BUSINESS_ACCOUNT_ID` (fallback if not in DB)

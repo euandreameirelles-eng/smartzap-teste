@@ -55,13 +55,13 @@ function generateFlowToken(flowId?: string, campaignId?: string): string {
   const seed = Math.random().toString(36).slice(2, 8)
   const stamp = Date.now().toString(36)
   const suffix = campaignId ? `:c:${campaignId}` : ''
-  return `smartzap:${flowId || 'flow'}:${stamp}:${seed}${suffix}`
+  return `bluetick:${flowId || 'flow'}:${stamp}:${seed}${suffix}`
 }
 
 function appendCampaignToFlowToken(token: string, campaignId?: string): string {
   if (!campaignId) return token
   if (token.includes(':c:')) return token
-  if (!token.startsWith('smartzap:')) return token
+  if (!token.startsWith('bluetick:')) return token
   return `${token}:c:${campaignId}`
 }
 

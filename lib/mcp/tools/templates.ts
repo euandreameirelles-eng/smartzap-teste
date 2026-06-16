@@ -83,7 +83,7 @@ export function registerTemplatesTools(server: McpServer) {
         `${process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')}/api/templates/sync`,
         {
           method: 'POST',
-          headers: { 'x-api-key': process.env.SMARTZAP_API_KEY ?? '' },
+          headers: { 'x-api-key': process.env.BLUETICK_API_KEY ?? '' },
         }
       )
       const body = await res.json().catch(() => ({}))

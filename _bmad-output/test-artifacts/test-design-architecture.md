@@ -1,18 +1,18 @@
-# Test Design for Architecture: SmartZap Platform
+# Test Design for Architecture: BlueTick Platform
 
 **Objetivo:** Avaliacao de testabilidade arquitetural, gaps e requisitos de NFR para revisao pelo time de desenvolvimento. Serve como contrato entre QA e Engenharia sobre o que deve ser endereacdo antes do desenvolvimento de testes comecar.
 
 **Data:** 2026-02-08
 **Autor:** Murat (TEA Master Test Architect)
 **Status:** Revisao Arquitetural Pendente
-**Projeto:** SmartZap
+**Projeto:** BlueTick
 **Referencia:** `docs/architecture.md`, `docs/data-models.md`, `CLAUDE.md`
 
 ---
 
 ## Resumo Executivo
 
-**Escopo:** Plataforma completa SmartZap -- SaaS single-tenant de automacao de marketing via WhatsApp. 870 arquivos fonte, 200+ API routes, 460+ componentes, 38 tabelas PostgreSQL, integracoes com Meta WhatsApp Cloud API v24.0, Upstash QStash/Redis, Vercel AI SDK v6.
+**Escopo:** Plataforma completa BlueTick -- SaaS single-tenant de automacao de marketing via WhatsApp. 870 arquivos fonte, 200+ API routes, 460+ componentes, 38 tabelas PostgreSQL, integracoes com Meta WhatsApp Cloud API v24.0, Upstash QStash/Redis, Vercel AI SDK v6.
 
 **Contexto de Negocio:**
 
@@ -136,7 +136,7 @@
 
 | Preocupacao | Impacto | O que Arquitetura Deve Fornecer | Owner | Timeline |
 |-------------|---------|--------------------------------|-------|----------|
-| **Sem API de seed de dados para testes** | Testes E2E nao podem ser paralelizados; dependem de estado compartilhado | Endpoint `POST /api/test/seed` com factory de dados (campanhas, contatos, templates) com cleanup automatico. Proteger com `SMARTZAP_ADMIN_KEY` | Backend | Sprint 0 |
+| **Sem API de seed de dados para testes** | Testes E2E nao podem ser paralelizados; dependem de estado compartilhado | Endpoint `POST /api/test/seed` com factory de dados (campanhas, contatos, templates) com cleanup automatico. Proteger com `BLUETICK_ADMIN_KEY` | Backend | Sprint 0 |
 | **Sem mock server da Meta WhatsApp API** | Testes de envio de campanha, inbox e workflow precisam chamar API real ou falham | MSW (Mock Service Worker) handlers para endpoints da Meta API v24.0: send template, send text, get templates, upload media, webhooks. Ou docker container com WireMock | QA + Backend | Sprint 0 |
 | **Sem isolamento de banco entre testes** | Testes paralelos interferem uns nos outros; dados residuais causam flaky tests | Opcao A: Schema separado por test run + truncate. Opcao B: Transactions com rollback (complexo com Supabase). Opcao C: Prefixos unicos por test suite (ex: `test_{uuid}_` nos IDs) | Backend | Sprint 0 |
 | **Sem contract tests para Meta API** | Mudancas na Meta API v24.0 quebram silenciosamente | JSON schemas dos payloads da Meta para validar contra a integracao local. `lib/whatsapp/template-contract.test.ts` ja existe -- ampliar | QA | Sprint 0-1 |
@@ -191,7 +191,7 @@
 
 #### Trade-offs Aceitos (Sem Acao Necessaria)
 
-Para SmartZap Phase 1, os seguintes trade-offs sao aceitaveis:
+Para BlueTick Phase 1, os seguintes trade-offs sao aceitaveis:
 
 - **Sem middleware.ts global** -- Auth per-route e intencional para controle granular. Mitigo com teste de cobertura de auth
 - **Sem ORM** -- Queries diretas Supabase sao intencionais para performance. Mitigo com testes de parity snake_case/camelCase

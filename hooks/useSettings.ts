@@ -40,7 +40,7 @@ interface WebhookSubscriptionStatus {
   wabaOverride?: {
     url: string | null;
     isConfigured: boolean;
-    isSmartZap: boolean;
+    isBlueTick: boolean;
   };
   // Webhook hierarchy from phone number perspective
   hierarchy?: {
@@ -48,7 +48,7 @@ interface WebhookSubscriptionStatus {
     wabaOverride: string | null;
     appWebhook: string | null;
   } | null;
-  smartzapWebhookUrl?: string;
+  bluetickWebhookUrl?: string;
 }
 
 export const useSettingsController = () => {
@@ -267,7 +267,7 @@ export const useSettingsController = () => {
       // Invalida allSettings para atualizar isConnected na UI
       queryClient.invalidateQueries({ queryKey: ['allSettings'] });
       // Limpa cache e re-verifica limites com novo token
-      localStorage.removeItem('smartzap_account_limits');
+      localStorage.removeItem('bluetick_account_limits');
       queryClient.invalidateQueries({ queryKey: ['account-limits'] });
       toast.success('Configuração salva com sucesso!');
     },
@@ -416,9 +416,9 @@ export const useSettingsController = () => {
       await queryClient.refetchQueries({ queryKey: ['metaWebhookSubscription'] });
 
       const wabaOverride = data?.wabaOverride as Record<string, unknown> | undefined;
-      const isSmartZap = wabaOverride?.isSmartZap;
-      if (isSmartZap) {
-        toast.success('SmartZap ativado para WABA!', {
+      const isBlueTick = wabaOverride?.isBlueTick;
+      if (isBlueTick) {
+        toast.success('BlueTick ativado para WABA!', {
           description: 'Todos os números sem override #1 usarão este webhook.',
         });
       } else {

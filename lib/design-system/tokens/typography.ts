@@ -1,5 +1,5 @@
 /**
- * SmartZap Design System - Typography Tokens
+ * BlueTick Design System - Typography Tokens
  *
  * Sistema tipográfico com:
  * - Font families (display + body)

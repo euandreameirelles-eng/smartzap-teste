@@ -28,7 +28,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     id: 'send-message',
     title: 'Envie sua primeira mensagem!',
-    description: 'Crie uma campanha de teste para ver o SmartZap em ação. Leva menos de 2 minutos.',
+    description: 'Crie uma campanha de teste para ver o BlueTick em ação. Leva menos de 2 minutos.',
     icon: <Send className="w-6 h-6" />,
     action: {
       label: 'Criar campanha',
@@ -56,7 +56,7 @@ const TOUR_STEPS: TourStep[] = [
   },
 ];
 
-const STORAGE_KEY = 'smartzap_guided_tour_completed';
+const STORAGE_KEY = 'bluetick_guided_tour_completed';
 
 export function GuidedTour({ onComplete, onSkip }: GuidedTourProps) {
   const router = useRouter();

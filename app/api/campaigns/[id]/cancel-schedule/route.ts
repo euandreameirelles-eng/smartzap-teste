@@ -7,8 +7,8 @@ import { CampaignStatus } from '@/types'
 // Registry in-memory (dev-only) for localhost scheduling.
 // QStash cannot reach localhost, então usamos um setTimeout em dev.
 const localScheduleRegistry: Map<string, NodeJS.Timeout> =
-  (globalThis as any).__smartzapLocalScheduleRegistry
-  || ((globalThis as any).__smartzapLocalScheduleRegistry = new Map<string, NodeJS.Timeout>())
+  (globalThis as any).__bluetickLocalScheduleRegistry
+  || ((globalThis as any).__bluetickLocalScheduleRegistry = new Map<string, NodeJS.Timeout>())
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'

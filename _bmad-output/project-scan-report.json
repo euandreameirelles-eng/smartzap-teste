@@ -7,11 +7,11 @@
   },
   "mode": "initial_scan",
   "scan_level": "exhaustive",
-  "project_root": "/Users/thaleslaray/code/projetos/smartzap",
-  "output_folder": "/Users/thaleslaray/code/projetos/smartzap/docs",
+  "project_root": "/Users/thaleslaray/code/projetos/bluetick",
+  "output_folder": "/Users/thaleslaray/code/projetos/bluetick/docs",
   "project_types": [
     {
-      "part_id": "smartzap",
+      "part_id": "bluetick",
       "project_type_id": "web",
       "display_name": "Web Application (Next.js 16)"
     }

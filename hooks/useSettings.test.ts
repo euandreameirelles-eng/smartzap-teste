@@ -110,7 +110,7 @@ const mockAllSettings = {
     phoneNumberId: '123456789',
     businessAccountId: '987654321',
     displayPhoneNumber: '+55 11 99999-9999',
-    verifiedName: 'SmartZap Testes',
+    verifiedName: 'BlueTick Testes',
     hasToken: true,
     isConnected: true,
   },
@@ -134,11 +134,11 @@ const mockAllSettings = {
   testContact: { name: 'Contato Teste', phone: '+5511988887777' },
   domains: {
     domains: [
-      { value: 'https://smartzap.app', label: 'Production', isPrimary: true },
-      { value: 'https://smartzap.vercel.app', label: 'Vercel', isPrimary: false },
+      { value: 'https://bluetick.app', label: 'Production', isPrimary: true },
+      { value: 'https://bluetick.vercel.app', label: 'Vercel', isPrimary: false },
     ],
     webhookPath: '/api/webhook',
-    currentSelection: 'https://smartzap.app',
+    currentSelection: 'https://bluetick.app',
   },
   calendarBooking: {
     ok: true,
@@ -171,7 +171,7 @@ const mockAutoSuppressionConfig = {
 }
 
 const mockWebhookInfo = {
-  webhookUrl: 'https://smartzap.app/api/webhook',
+  webhookUrl: 'https://bluetick.app/api/webhook',
   webhookToken: 'token-xyz',
   stats: { lastEventAt: '2026-02-08T11:00:00Z', todayDelivered: 100, todayRead: 50, todayFailed: 2 },
 }
@@ -264,12 +264,12 @@ describe('useSettingsController', () => {
       ok: true,
       phoneNumberId: '123',
       displayPhoneNumber: '+5511999999999',
-      verifiedName: 'SmartZap',
+      verifiedName: 'BlueTick',
     })
     mockFetchPhoneDetails.mockResolvedValue({
       display_phone_number: '+55 11 99999-9999',
       quality_rating: 'GREEN',
-      verified_name: 'SmartZap',
+      verified_name: 'BlueTick',
     })
 
     // Health check mocks
@@ -364,8 +364,8 @@ describe('useSettingsController', () => {
       })
 
       expect(result.current.availableDomains).toEqual([
-        { url: 'https://smartzap.app', source: 'production', recommended: true },
-        { url: 'https://smartzap.vercel.app', source: 'vercel', recommended: false },
+        { url: 'https://bluetick.app', source: 'production', recommended: true },
+        { url: 'https://bluetick.vercel.app', source: 'vercel', recommended: false },
       ])
     })
 
@@ -416,7 +416,7 @@ describe('useSettingsController', () => {
         expect(result.current.isLoading).toBe(false)
       })
 
-      expect(result.current.selectedDomain).toBe('https://smartzap.app')
+      expect(result.current.selectedDomain).toBe('https://bluetick.app')
     })
   })
 
@@ -728,7 +728,7 @@ describe('useSettingsController', () => {
       mockFetchPhoneDetails.mockResolvedValue({
         display_phone_number: '+55 11 99999-9999',
         quality_rating: 'GREEN',
-        verified_name: 'SmartZap',
+        verified_name: 'BlueTick',
       })
       mockSave.mockResolvedValue({
         phoneNumberId: '123456789',
@@ -830,7 +830,7 @@ describe('useSettingsController', () => {
       mockTestConnection.mockResolvedValue({
         ok: true,
         displayPhoneNumber: '+5511999999999',
-        verifiedName: 'SmartZap',
+        verifiedName: 'BlueTick',
         wabaId: 'auto-waba-123',
       })
 
@@ -999,7 +999,7 @@ describe('useSettingsController', () => {
         expect(result.current.webhookUrl).toBeDefined()
       })
 
-      expect(result.current.webhookUrl).toBe('https://smartzap.app/api/webhook')
+      expect(result.current.webhookUrl).toBe('https://bluetick.app/api/webhook')
       expect(result.current.webhookToken).toBe('token-xyz')
     })
 

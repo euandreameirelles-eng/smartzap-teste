@@ -1,7 +1,7 @@
 /**
  * API de Provisioning Unificada
  *
- * Esta é a ÚNICA API de provisioning do SmartZap.
+ * Esta é a ÚNICA API de provisioning do BlueTick.
  * Recebe todos os dados coletados e executa o setup completo.
  *
  * Steps:
@@ -105,7 +105,7 @@ const STEPS: Step[] = [
 // =============================================================================
 
 async function hashPassword(password: string): Promise<string> {
-  const SALT = '_smartzap_salt_2026';
+  const SALT = '_bluetick_salt_2026';
   const encoder = new TextEncoder();
   const data = encoder.encode(password + SALT);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -144,7 +144,7 @@ function isDbConnectionError(err: unknown): boolean {
 }
 
 async function validateVercelToken(token: string): Promise<{ projectId: string; projectName: string; teamId?: string }> {
-  // List projects to validate token and find smartzap project
+  // List projects to validate token and find bluetick project
   const res = await fetchWithTimeout('https://api.vercel.com/v9/projects?limit=100', {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -160,8 +160,8 @@ async function validateVercelToken(token: string): Promise<{ projectId: string; 
   const data = await res.json();
   const projects = data.projects || [];
 
-  // Find smartzap project or use first
-  let project = projects.find((p: { name: string }) => p.name.toLowerCase().includes('smartzap'));
+  // Find bluetick project or use first
+  let project = projects.find((p: { name: string }) => p.name.toLowerCase().includes('bluetick'));
   if (!project && projects.length > 0) {
     project = projects[0];
   }
@@ -252,7 +252,7 @@ async function findOrCreateSupabaseProject(
   onProgress: (fraction: number) => Promise<void>
 ): Promise<{ projectRef: string; projectUrl: string; dbPass: string; isNew: boolean }> {
   // SEMPRE cria um projeto novo para evitar herdar lixo de instalações anteriores
-  // Se "smartzap" já existe, tenta smartzap-v2, smartzap-v3, etc.
+  // Se "bluetick" já existe, tenta bluetick-v2, bluetick-v3, etc.
 
   await onProgress(0.1);
 
@@ -289,13 +289,13 @@ async function findOrCreateSupabaseProject(
   const org = orgs[0];
   await onProgress(0.3);
 
-  // Find available project name (smartzap, smartzap-v2, smartzap-v3, ...)
-  let projectName = 'smartzap';
+  // Find available project name (bluetick, bluetick-v2, bluetick-v3, ...)
+  let projectName = 'bluetick';
   let version = 1;
 
   while (existingNames.has(projectName.toLowerCase()) && version < 100) {
     version++;
-    projectName = `smartzap-v${version}`;
+    projectName = `bluetick-v${version}`;
   }
 
   await onProgress(0.4);
@@ -330,7 +330,7 @@ async function findOrCreateSupabaseProject(
     // Handle race condition where name was taken between check and create
     if (createResult.status === 409) {
       // Try with timestamp suffix as fallback
-      const fallbackName = `smartzap-${Date.now().toString(36)}`;
+      const fallbackName = `bluetick-${Date.now().toString(36)}`;
       const retryResult = await createSupabaseProject({
         accessToken: pat,
         organizationSlug: org.slug || org.id,
@@ -653,7 +653,7 @@ export async function POST(req: Request) {
         { key: 'UPSTASH_REDIS_REST_URL', value: redis.restUrl, targets: [...envTargets] },
         { key: 'UPSTASH_REDIS_REST_TOKEN', value: redis.restToken, targets: [...envTargets] },
         { key: 'MASTER_PASSWORD', value: passwordHash, targets: [...envTargets] },
-        { key: 'SMARTZAP_API_KEY', value: `szap_${crypto.randomUUID().replace(/-/g, '')}`, targets: [...envTargets] },
+        { key: 'BLUETICK_API_KEY', value: `szap_${crypto.randomUUID().replace(/-/g, '')}`, targets: [...envTargets] },
         { key: 'SETUP_COMPLETE', value: 'true', targets: [...envTargets] },
         // Tokens para métricas de uso (painel de infraestrutura)
         { key: 'VERCEL_API_TOKEN', value: vercel.token, targets: [...envTargets] },

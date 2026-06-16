@@ -48,7 +48,7 @@ function getBaseUrl(): string | null {
 }
 
 function getReconcileSecret(): string | null {
-  return (process.env.SMARTZAP_ADMIN_KEY || process.env.SMARTZAP_API_KEY || '').trim() || null
+  return (process.env.BLUETICK_ADMIN_KEY || process.env.BLUETICK_API_KEY || '').trim() || null
 }
 
 export async function enqueueWebhookStatusReconcileBestEffort(reason: string): Promise<void> {

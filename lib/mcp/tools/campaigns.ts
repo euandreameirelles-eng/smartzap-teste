@@ -150,7 +150,7 @@ export function registerCampaignsTools(server: McpServer) {
     async ({ id }) => {
       const res = await fetch(`${baseUrl()}/api/campaign/${id}/pause`, {
         method: 'POST',
-        headers: { 'x-api-key': process.env.SMARTZAP_API_KEY ?? '' },
+        headers: { 'x-api-key': process.env.BLUETICK_API_KEY ?? '' },
       })
       const body = await res.json()
       if (!res.ok) return err(body.error ?? 'Erro ao pausar campanha')
@@ -171,7 +171,7 @@ export function registerCampaignsTools(server: McpServer) {
     async ({ id }) => {
       const res = await fetch(`${baseUrl()}/api/campaign/${id}/resume`, {
         method: 'POST',
-        headers: { 'x-api-key': process.env.SMARTZAP_API_KEY ?? '' },
+        headers: { 'x-api-key': process.env.BLUETICK_API_KEY ?? '' },
       })
       const body = await res.json()
       if (!res.ok) return err(body.error ?? 'Erro ao retomar campanha')
