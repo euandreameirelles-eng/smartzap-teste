@@ -28,7 +28,7 @@ export function FloatingPreviewButton({
         'lg:hidden',
         // Aparencia
         'flex items-center gap-2 px-4 py-3 rounded-full',
-        'bg-teal-500 hover:bg-teal-600',
+        'bg-blue-500 hover:bg-blue-600',
         'text-white font-medium text-sm',
         // Sombra e transicao
         'shadow-lg shadow-teal-500/25',

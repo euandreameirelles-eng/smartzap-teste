@@ -18,9 +18,9 @@ export const SelectionActionBar: React.FC<SelectionActionBarProps> = ({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="rounded-2xl border border-teal-400/30 bg-teal-500/10 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.35)] flex items-center justify-between animate-in slide-in-from-top duration-200">
+    <div className="rounded-2xl border border-blue-400/30 bg-blue-500/10 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.35)] flex items-center justify-between animate-in slide-in-from-top duration-200">
       <div className="flex items-center gap-3">
-        <span className="text-sm text-teal-200 font-medium">
+        <span className="text-sm text-blue-200 font-medium">
           {selectedCount} selecionado(s)
         </span>
       </div>

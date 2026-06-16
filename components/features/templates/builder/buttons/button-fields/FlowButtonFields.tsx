@@ -22,7 +22,7 @@ interface FlowButtonFieldsProps {
 function FlowStatusBadge({ status }: { status: string }) {
   const cls =
     status === 'PUBLISHED'
-      ? 'bg-teal-500/15 text-teal-200 border-teal-500/20'
+      ? 'bg-blue-500/15 text-blue-200 border-blue-500/20'
       : status === 'DRAFT'
         ? 'bg-amber-500/15 text-amber-200 border-amber-500/20'
         : 'bg-[var(--ds-bg-hover)] text-[var(--ds-text-secondary)] border-[var(--ds-border-default)]'

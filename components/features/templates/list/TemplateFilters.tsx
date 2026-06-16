@@ -70,7 +70,7 @@ export const TemplateFilters: React.FC<TemplateFiltersProps> = ({
             onClick={() => setCategoryFilter(cat.value)}
             className={`rounded-full border px-3 py-1 text-[10px] uppercase tracking-widest transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-teal-400 focus-visible:outline-offset-2 ${
               categoryFilter === cat.value
-                ? 'border-teal-400/40 bg-teal-500/10 text-[var(--ds-status-success-text)]'
+                ? 'border-blue-400/40 bg-blue-500/10 text-[var(--ds-status-success-text)]'
                 : 'border-[var(--ds-border-default)] bg-[var(--ds-bg-elevated)] text-[var(--ds-text-secondary)] hover:text-[var(--ds-text-primary)]'
             }`}
             aria-pressed={categoryFilter === cat.value}
@@ -94,7 +94,7 @@ export const TemplateFilters: React.FC<TemplateFiltersProps> = ({
               onClick={() => setStatusFilter(s.value)}
               className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-teal-400 focus-visible:outline-offset-2 ${
                 statusFilter === s.value
-                  ? 'border-teal-400/40 bg-teal-500/10 text-[var(--ds-status-success-text)]'
+                  ? 'border-blue-400/40 bg-blue-500/10 text-[var(--ds-status-success-text)]'
                   : 'border-[var(--ds-border-default)] bg-[var(--ds-bg-elevated)] text-[var(--ds-text-secondary)] hover:text-[var(--ds-text-primary)]'
               }`}
               aria-pressed={statusFilter === s.value}

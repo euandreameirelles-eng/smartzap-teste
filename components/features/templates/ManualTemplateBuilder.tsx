@@ -584,14 +584,14 @@ export function ManualTemplateBuilder({
                 }}
                 className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm transition ${
                   step === item.id
-                    ? 'border-teal-600 dark:border-teal-400/40 bg-teal-100 dark:bg-teal-500/10 text-teal-900 dark:text-white'
+                    ? 'border-blue-600 dark:border-blue-400/40 bg-blue-100 dark:bg-blue-500/10 text-blue-900 dark:text-white'
                     : 'border-[var(--ds-border-default)] bg-[var(--ds-bg-surface)] text-[var(--ds-text-muted)]'
                 } ${!isStepEnabled ? 'cursor-not-allowed opacity-40' : 'hover:text-[var(--ds-text-primary)]'}`}
               >
                 <span
                   className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-xs font-semibold leading-none ${
                     step === item.id
-                      ? 'border-teal-600 dark:border-teal-400 bg-teal-200 dark:bg-teal-500/20 text-teal-800 dark:text-teal-200'
+                      ? 'border-blue-600 dark:border-blue-400 bg-blue-200 dark:bg-blue-500/20 text-blue-800 dark:text-blue-200'
                       : 'border-[var(--ds-border-default)] text-[var(--ds-text-muted)]'
                   }`}
                 >

@@ -29,7 +29,7 @@ export function BatchSubmissionList({
     if (isLoading && submissions.length === 0) {
         return (
             <div className="flex justify-center p-12">
-                <Loader2 className="w-8 h-8 animate-spin text-teal-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
             </div>
         );
     }
@@ -60,7 +60,7 @@ export function BatchSubmissionList({
                         </h3>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-zinc-950/40 border border-white/10 flex items-center justify-center">
-                        <Clock className={`w-5 h-5 ${hourlyCount >= 80 ? 'text-amber-300' : 'text-teal-300'}`} />
+                        <Clock className={`w-5 h-5 ${hourlyCount >= 80 ? 'text-amber-300' : 'text-blue-300'}`} />
                     </div>
                 </Container>
             </div>
@@ -99,7 +99,7 @@ export function BatchSubmissionList({
                                         <td className="px-6 py-4 max-w-[300px]">
                                             <div className="flex items-center gap-3">
                                                 <div className="min-w-0">
-                                                    <h3 className="font-medium text-white group-hover:text-teal-200 transition-colors truncate max-w-[280px]" title={submission.name}>
+                                                    <h3 className="font-medium text-white group-hover:text-blue-200 transition-colors truncate max-w-[280px]" title={submission.name}>
                                                         {submission.name}
                                                     </h3>
                                                     <span className="text-xs text-zinc-500">
@@ -111,7 +111,7 @@ export function BatchSubmissionList({
 
                                         <td className="px-6 py-4 w-48">
                                             <div className="h-2 w-full bg-zinc-950/60 rounded-full overflow-hidden flex">
-                                                <div style={{ width: `${utilityPercent}%` }} className="bg-teal-500 transition-all duration-500" />
+                                                <div style={{ width: `${utilityPercent}%` }} className="bg-blue-500 transition-all duration-500" />
                                                 <div style={{ width: `${marketingPercent}%` }} className="bg-amber-500 transition-all duration-500" />
                                                 <div style={{ width: `${rejectedPercent}%` }} className="bg-amber-700 transition-all duration-500" />
                                                 <div style={{ width: `${pendingPercent}%` }} className="bg-zinc-700 animate-pulse" />
@@ -124,7 +124,7 @@ export function BatchSubmissionList({
 
                                         <td className="px-6 py-4 text-center">
                                             {submission.stats.utility > 0 ? (
-                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-500/10 text-teal-300 border border-teal-500/20">
+                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/10 text-blue-300 border border-blue-500/20">
                                                     {submission.stats.utility}
                                                 </span>
                                             ) : (

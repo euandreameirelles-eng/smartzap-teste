@@ -30,10 +30,10 @@
   --ds-text-3xl: 1.875rem;
   --ds-text-4xl: 2.25rem;
 
-  /* DS - Brand colors (Amber - identidade OdontoZap) */
-  --ds-brand-primary: #ffb75d;
-  --ds-brand-primary-hover: #f09740;
-  --ds-brand-primary-muted: rgba(255, 183, 93, 0.1);
+  /* DS - Brand colors (Azul - identidade OdontoZap) */
+  --ds-brand-primary: #00B4FF;
+  --ds-brand-primary-hover: #0D6EFD;
+  --ds-brand-primary-muted: rgba(0, 180, 255, 0.1);
 
   /* ================================
      LIGHT MODE - Geist Inspired
@@ -52,14 +52,14 @@
   --ds-text-primary: #0a0a0a;
   --ds-text-secondary: #525252;
   --ds-text-muted: #737373;
-  --ds-text-brand: #f09740;
+  --ds-text-brand: #0D6EFD;
   --ds-text-disabled: #a3a3a3;
 
   /* DS - Border colors (LIGHT MODE - Geist style - visible but elegant) */
   --ds-border-subtle: rgba(0, 0, 0, 0.06);
   --ds-border-default: rgba(0, 0, 0, 0.09);
   --ds-border-strong: rgba(0, 0, 0, 0.14);
-  --ds-border-focus: #ffb75d;
+  --ds-border-focus: #00B4FF;
 
   /* DS - Status colors (LIGHT MODE - Geist style) */
   --ds-status-success: #22c55e;
@@ -97,9 +97,9 @@
   --ds-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 
   /* DS - Glow effects (LIGHT MODE - Geist: subtle focus rings) */
-  --ds-glow-brand-sm: 0 0 0 2px rgba(45, 212, 191, 0.15);
-  --ds-glow-brand-md: 0 0 0 3px rgba(45, 212, 191, 0.2);
-  --ds-glow-brand-ring: 0 0 0 2px rgba(45, 212, 191, 0.25);
+  --ds-glow-brand-sm: 0 0 0 2px rgba(0, 180, 255, 0.15);
+  --ds-glow-brand-md: 0 0 0 3px rgba(0, 180, 255, 0.2);
+  --ds-glow-brand-ring: 0 0 0 2px rgba(0, 180, 255, 0.25);
   --ds-glow-error-ring: 0 0 0 2px rgba(239, 68, 68, 0.25);
 
   /* DS - Composite shadows (LIGHT MODE - Geist style) */
@@ -109,7 +109,7 @@
   --ds-shadow-button-hover: 0 0 0 1px rgba(0, 0, 0, 0.08);
   --ds-shadow-button-primary: 0 1px 2px 0 rgba(0, 0, 0, 0.08);
   --ds-shadow-button-primary-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  --ds-shadow-input-focus: 0 0 0 2px rgba(45, 212, 191, 0.25);
+  --ds-shadow-input-focus: 0 0 0 2px rgba(0, 180, 255, 0.25);
   --ds-shadow-modal: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 16px 32px -8px rgba(0, 0, 0, 0.12);
   --ds-shadow-dropdown: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 8px 16px -4px rgba(0, 0, 0, 0.1);
 
@@ -146,18 +146,18 @@
   --color-gray-900: #18181b;
   --color-gray-950: #09090b;
 
-  /* Mint Green (OdontoZap - saúde e cuidado) */
-  --color-primary-50: #fff8ed;
-  --color-primary-100: #ffefcc;
-  --color-primary-200: #ffd98a;
-  --color-primary-300: #ffc96e;
-  --color-primary-400: #ffb75d;
-  --color-primary-500: #f09740;
-  --color-primary-600: #d97924;
-  --color-primary-700: #b55e17;
-  --color-primary-800: #8f480f;
-  --color-primary-900: #6b3408;
-  --color-primary-950: #3d1a04;
+  /* Azul (OdontoZap - identidade visual) */
+  --color-primary-50: #eff8ff;
+  --color-primary-100: #dff0ff;
+  --color-primary-200: #b8e1ff;
+  --color-primary-300: #7accff;
+  --color-primary-400: #38b6ff;
+  --color-primary-500: #00B4FF;
+  --color-primary-600: #0D6EFD;
+  --color-primary-700: #0047CC;
+  --color-primary-800: #003399;
+  --color-primary-900: #002266;
+  --color-primary-950: #001133;
 
   /* ================================
      LANGFLOW COLOR SYSTEM
@@ -675,25 +675,25 @@ textarea:focus-visible {
      ================================ */
 
   /* DS - Backgrounds (DARK MODE) */
-  --ds-bg-base: #1B0C33;
-  --ds-bg-elevated: #241040;
-  --ds-bg-surface: #2E1554;
-  --ds-bg-overlay: rgba(27, 12, 51, 0.8);
-  --ds-bg-glass: rgba(36, 16, 64, 0.7);
+  --ds-bg-base: #070F1E;
+  --ds-bg-elevated: #0A1628;
+  --ds-bg-surface: #0D1F3C;
+  --ds-bg-overlay: rgba(7, 15, 30, 0.8);
+  --ds-bg-glass: rgba(10, 22, 40, 0.7);
   --ds-bg-hover: rgba(255, 255, 255, 0.05);
 
   /* DS - Text colors (DARK MODE) */
   --ds-text-primary: #f4f4f5;
   --ds-text-secondary: #a1a1aa;
   --ds-text-muted: #71717a;
-  --ds-text-brand: #ffb75d;
+  --ds-text-brand: #00B4FF;
   --ds-text-disabled: #52525b;
 
   /* DS - Border colors (DARK MODE) */
   --ds-border-subtle: rgba(255, 255, 255, 0.05);
   --ds-border-default: rgba(255, 255, 255, 0.10);
   --ds-border-strong: rgba(255, 255, 255, 0.15);
-  --ds-border-focus: #ffb75d;
+  --ds-border-focus: #00B4FF;
 
   /* DS - Status colors (DARK MODE - tons -400 para texto) */
   --ds-status-success-text: #34d399;

@@ -100,7 +100,7 @@ function LoginForm() {
     <div className="w-full max-w-md">
       {/* Logo */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-amber-500 to-amber-600 mb-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br from-blue-500 to-blue-600 mb-4">
           <span className="text-3xl font-bold text-white">O</span>
         </div>
         <h1 className="text-2xl font-bold text-[var(--ds-text-primary)]">
@@ -149,7 +149,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={isLoading || (!isConfigured && isLocalhost)}
-            className="w-full mt-6 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+            className="w-full mt-6 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -175,7 +175,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[var(--ds-bg-base)] flex items-center justify-center p-4">
       <Suspense fallback={
-        <div className="w-5 h-5 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
       }>
         <LoginForm />
       </Suspense>
