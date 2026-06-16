@@ -165,24 +165,7 @@ function LoginForm() {
 
       {/* Footer */}
       <p className="text-center text-[var(--ds-text-muted)] text-sm mt-6">
-        OdontoZap © {new Date().getFullYear()} |{' '}
-        <a
-          href="https://www.escoladeautomacao.com.br/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-teal-500 transition-colors"
-        >
-          Escola de Automação
-        </a>
-        {' '}| by{' '}
-        <a
-          href="https://instagram.com/thaleslaray"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-teal-500 transition-colors"
-        >
-          @thaleslaray
-        </a>
+        OdontoZap © {new Date().getFullYear()} | by Produzza
       </p>
     </div>
   )
