@@ -33,20 +33,51 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Credenciais do WhatsApp não configuradas' }, { status: 500 })
   }
 
+  // Fluxo oficial da Meta para download de mídia:
+  // 1. Chamar GET /v24.0/{media-id} para obter uma URL de download fresca
+  // 2. Baixar dessa URL com o Bearer token
+  //
+  // O `mid` presente na URL do lookaside é o media ID que a Graph API aceita.
+  const mediaId = parsed.searchParams.get('mid')
+  let downloadUrl = url
+
+  if (mediaId) {
+    try {
+      const graphRes = await fetch(`https://graph.facebook.com/v24.0/${mediaId}`, {
+        headers: { Authorization: `Bearer ${credentials.accessToken}` },
+      })
+      if (graphRes.ok) {
+        const graphData = await graphRes.json() as { url?: string }
+        if (graphData.url) {
+          downloadUrl = graphData.url
+        }
+      } else {
+        let graphBody: unknown = null
+        try { graphBody = await graphRes.json() } catch { /* ignora */ }
+        return NextResponse.json(
+          { error: 'Falha ao obter URL da Graph API', status: graphRes.status, detail: graphBody },
+          { status: graphRes.status }
+        )
+      }
+    } catch {
+      return NextResponse.json({ error: 'Falha ao chamar Graph API' }, { status: 502 })
+    }
+  }
+
   let metaResponse: Response
   try {
-    metaResponse = await fetch(url, {
+    metaResponse = await fetch(downloadUrl, {
       headers: { Authorization: `Bearer ${credentials.accessToken}` },
     })
   } catch {
-    return NextResponse.json({ error: 'Falha ao buscar mídia na Meta' }, { status: 502 })
+    return NextResponse.json({ error: 'Falha ao baixar mídia' }, { status: 502 })
   }
 
   if (!metaResponse.ok) {
     let metaBody: unknown = null
     try { metaBody = await metaResponse.json() } catch { /* ignora */ }
     return NextResponse.json(
-      { error: 'Meta retornou erro', status: metaResponse.status, detail: metaBody },
+      { error: 'Meta retornou erro ao baixar mídia', status: metaResponse.status, detail: metaBody },
       { status: metaResponse.status }
     )
   }
