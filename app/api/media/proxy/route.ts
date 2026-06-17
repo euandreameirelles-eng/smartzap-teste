@@ -50,8 +50,10 @@ export async function GET(request: NextRequest) {
   }
 
   if (!metaResponse.ok) {
+    let metaBody: unknown = null
+    try { metaBody = await metaResponse.json() } catch { /* ignora */ }
     return NextResponse.json(
-      { error: 'Meta retornou erro', status: metaResponse.status },
+      { error: 'Meta retornou erro', status: metaResponse.status, detail: metaBody },
       { status: metaResponse.status }
     )
   }
