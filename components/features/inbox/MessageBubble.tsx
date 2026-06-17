@@ -156,6 +156,75 @@ function parseTemplateMessage(content: string): ParsedTemplateMessage | null {
   return result
 }
 
+function MediaContent({ message }: { message: InboxMessage }) {
+  const { message_type, media_url } = message
+
+  if (message_type === 'image') {
+    if (media_url) {
+      return (
+        <a href={media_url} target="_blank" rel="noopener noreferrer">
+          <img
+            src={media_url}
+            alt="Imagem"
+            className="max-w-[240px] rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+          />
+        </a>
+      )
+    }
+    return (
+      <span className="flex items-center gap-1.5 text-zinc-400 text-sm italic py-0.5">
+        <span>🖼️</span> Imagem
+      </span>
+    )
+  }
+
+  if (message_type === 'audio') {
+    if (media_url) {
+      return <audio controls src={media_url} className="max-w-[240px] h-10" />
+    }
+    return (
+      <span className="flex items-center gap-1.5 text-zinc-400 text-sm italic py-0.5">
+        <span>🎵</span> Áudio
+      </span>
+    )
+  }
+
+  if (message_type === 'video') {
+    if (media_url) {
+      return (
+        <video controls src={media_url} className="max-w-[240px] rounded-lg" />
+      )
+    }
+    return (
+      <span className="flex items-center gap-1.5 text-zinc-400 text-sm italic py-0.5">
+        <span>🎬</span> Vídeo
+      </span>
+    )
+  }
+
+  if (message_type === 'document') {
+    if (media_url) {
+      return (
+        <a
+          href={media_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-blue-400 hover:text-blue-300 text-sm underline py-0.5"
+        >
+          <span>📄</span> Abrir documento
+        </a>
+      )
+    }
+    return (
+      <span className="flex items-center gap-1.5 text-zinc-400 text-sm italic py-0.5">
+        <span>📄</span> Documento
+      </span>
+    )
+  }
+
+  return null
+}
+
 export interface MessageBubbleProps {
   message: InboxMessage
   /** Name of the AI agent for displaying in AI responses */
@@ -448,10 +517,14 @@ export const MessageBubble = memo(function MessageBubble({
             />
           ) : (
             <>
-              {/* Regular message content with WhatsApp formatting */}
-              <p className="text-base leading-relaxed whitespace-pre-wrap break-words">
-                <WhatsAppFormattedText text={content} />
-              </p>
+              {/* Regular message content - text or media */}
+              {['image', 'audio', 'video', 'document'].includes(message.message_type) ? (
+                <MediaContent message={message} />
+              ) : (
+                <p className="text-base leading-relaxed whitespace-pre-wrap break-words">
+                  <WhatsAppFormattedText text={content} />
+                </p>
+              )}
 
               {/* AI Sources - inline, minimal */}
               {isAIResponse && ai_sources && ai_sources.length > 0 && isLastInGroup && (
