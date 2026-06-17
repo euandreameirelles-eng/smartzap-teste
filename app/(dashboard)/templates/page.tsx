@@ -249,7 +249,7 @@ export default function TemplatesPage() {
         <PageActions>
           {activeTab === 'meta' && (
             <div className="flex items-center gap-2">
-              <Button variant="brand" className="min-w-[160px]" onClick={handleCreateManualTemplate}>
+              <Button variant="default" className="min-w-[160px]" onClick={handleCreateManualTemplate}>
                 <Plus className="w-4 h-4" />
                 Criar template
               </Button>

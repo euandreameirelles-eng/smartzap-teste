@@ -302,7 +302,7 @@ export const ContactListView: React.FC<ContactListViewProps> = ({
           </CustomFieldsSheet>
 
           <Button
-            variant="brand"
+            variant="default"
             onClick={() => setIsAddModalOpen(true)}
             aria-label="Adicionar novo contato"
           >
