@@ -34,6 +34,8 @@ export const VALIDATION = {
   SUPABASE_PAT_PREFIX: 'sbp_',
   /** Mínimo de caracteres para token QStash */
   QSTASH_TOKEN_MIN_LENGTH: 30,
+  /** URL obrigatória do QStash (região US) */
+  QSTASH_URL_EXPECTED: 'https://qstash-us-east-1.upstash.io',
   /** Mínimo de caracteres para token Redis */
   REDIS_TOKEN_MIN_LENGTH: 30,
   /** Mínimo de caracteres para senha */
@@ -66,6 +68,7 @@ export interface InstallData {
   vercelToken: string;
   supabasePat: string;
   qstashToken: string;
+  qstashUrl: string;
   redisRestUrl: string;
   redisRestToken: string;
 }
@@ -77,6 +80,7 @@ export const EMPTY_INSTALL_DATA: InstallData = {
   vercelToken: '',
   supabasePat: '',
   qstashToken: '',
+  qstashUrl: '',
   redisRestUrl: '',
   redisRestToken: '',
 };
@@ -125,7 +129,8 @@ export const stepValidators: Record<InstallStep, (data: InstallData) => boolean>
   },
   4: (data) => {
     const token = normalizeToken(data.qstashToken ?? '');
-    return token.length >= VALIDATION.QSTASH_TOKEN_MIN_LENGTH;
+    const url = data.qstashUrl?.trim() ?? '';
+    return token.length >= VALIDATION.QSTASH_TOKEN_MIN_LENGTH && url.startsWith('https://');
   },
   5: (data) => {
     const url = data.redisRestUrl?.trim() ?? '';
@@ -141,7 +146,7 @@ export const stepRequiredFields: Record<InstallStep, (keyof InstallData)[]> = {
   1: ['name', 'email', 'password'],
   2: ['vercelToken'],
   3: ['supabasePat'],
-  4: ['qstashToken'],
+  4: ['qstashToken', 'qstashUrl'],
   5: ['redisRestUrl', 'redisRestToken'],
 };
 
@@ -284,6 +289,7 @@ export interface ProvisionPayload {
   };
   qstash: {
     token: string;
+    url: string;
   };
   redis: {
     restUrl: string;

@@ -13,28 +13,33 @@ import type { FormProps } from './types';
  * "Sistema de Transmissão" - filas de mensagens neurais.
  */
 export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
+  const [url, setUrl] = useState('');
   const [token, setToken] = useState('');
   const [validating, setValidating] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const isValidFormat =
+  const isValidUrl = url.trim().startsWith('https://');
+  const isValidToken =
     token.trim().startsWith('eyJ') ||
     token.trim().startsWith('qstash_') ||
     token.trim().split('.').length === 3;
 
-  const canValidate = isValidFormat && token.trim().length >= VALIDATION.QSTASH_TOKEN_MIN_LENGTH;
+  const canValidate =
+    isValidUrl &&
+    isValidToken &&
+    token.trim().length >= VALIDATION.QSTASH_TOKEN_MIN_LENGTH;
 
   const handleValidate = async () => {
     if (!canValidate) {
-      setError('Token deve começar com eyJ ou qstash_');
+      if (!isValidUrl) setError('URL deve começar com https://');
+      else setError('Token deve começar com eyJ ou qstash_');
       return;
     }
 
     setValidating(true);
     setError(null);
 
-    // Tempo mínimo para apreciar a narrativa
     const MIN_VALIDATION_TIME = 2500;
     const startTime = Date.now();
 
@@ -42,7 +47,7 @@ export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
       const res = await fetch('/api/installer/qstash/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: token.trim() }),
+        body: JSON.stringify({ url: url.trim(), token: token.trim() }),
       });
 
       const result = await res.json();
@@ -51,7 +56,6 @@ export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
         throw new Error(result.error || 'Credenciais inválidas');
       }
 
-      // Garantir tempo mínimo de exibição
       const elapsed = Date.now() - startTime;
       if (elapsed < MIN_VALIDATION_TIME) {
         await new Promise(r => setTimeout(r, MIN_VALIDATION_TIME - elapsed));
@@ -71,13 +75,7 @@ export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
   };
 
   const handleSuccessComplete = () => {
-    onComplete({ qstashToken: token.trim() });
-  };
-
-  const handleAutoSubmit = () => {
-    if (canValidate) {
-      handleValidate();
-    }
+    onComplete({ qstashUrl: url.trim(), qstashToken: token.trim() });
   };
 
   if (success) {
@@ -114,8 +112,26 @@ export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
         </p>
       </div>
 
+      {/* URL Input */}
+      <TokenInput
+        label="QSTASH_URL"
+        value={url}
+        onChange={(val) => {
+          setUrl(val);
+          setError(null);
+        }}
+        placeholder="https://qstash-us-east-1.upstash.io"
+        validating={validating}
+        error={!token && error ? error : undefined}
+        minLength={10}
+        showCharCount={false}
+        accentColor="orange"
+        autoFocus
+      />
+
       {/* Token Input */}
       <TokenInput
+        label="QSTASH_TOKEN"
         value={token}
         onChange={(val) => {
           setToken(val);
@@ -123,44 +139,50 @@ export function QStashForm({ data, onComplete, onBack, showBack }: FormProps) {
         }}
         placeholder="eyJ... ou qstash_..."
         validating={validating}
-        error={error || undefined}
+        error={token ? error || undefined : undefined}
         minLength={VALIDATION.QSTASH_TOKEN_MIN_LENGTH}
         autoSubmitLength={VALIDATION.QSTASH_TOKEN_MIN_LENGTH}
-        onAutoSubmit={handleAutoSubmit}
+        onAutoSubmit={handleValidate}
         showCharCount={false}
         accentColor="orange"
-        autoFocus
       />
 
-      {/* Collapsible help - esconde durante validação */}
+      {/* Erro geral */}
+      {error && (
+        <p className="text-xs text-red-400 font-mono text-center">{error}</p>
+      )}
+
+      {/* Collapsible help */}
       {!validating && (
-      <details className="w-full group">
-        <summary className="flex items-center justify-center gap-1.5 text-sm font-mono text-[var(--br-dust-gray)] hover:text-[var(--br-muted-cyan)] cursor-pointer list-none transition-colors">
-          <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
-          como obter credenciais?
-        </summary>
-        <div className="mt-3 p-3 rounded-lg bg-[var(--br-void-black)]/50 border border-[var(--br-dust-gray)]/30 text-left space-y-2">
-          <ol className="text-xs font-mono text-[var(--br-muted-cyan)] space-y-1.5 list-decimal list-inside">
-            <li>
-              Crie uma conta gratuita no{' '}
-              <a href="https://console.upstash.com" target="_blank" rel="noopener noreferrer" className="text-[var(--br-neon-orange)] hover:underline">
-                Upstash
-              </a>
-            </li>
-            <li>
-              Selecione a região <strong className="text-[var(--br-hologram-white)]">US-East-1</strong>{' '}
-              <span className="text-[var(--br-dust-gray)]">(obrigatório — outras regiões causam erro 401)</span>
-            </li>
-            <li>
-              Clique em <strong className="text-[var(--br-hologram-white)]">QStash</strong> no menu lateral
-            </li>
-            <li>
-              Copie o <strong className="text-[var(--br-hologram-white)]">QSTASH_TOKEN</strong> na aba Details{' '}
-              <span className="text-[var(--br-dust-gray)]">(sem aspas)</span>
-            </li>
-          </ol>
-        </div>
-      </details>
+        <details className="w-full group">
+          <summary className="flex items-center justify-center gap-1.5 text-sm font-mono text-[var(--br-dust-gray)] hover:text-[var(--br-muted-cyan)] cursor-pointer list-none transition-colors">
+            <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+            como obter credenciais?
+          </summary>
+          <div className="mt-3 p-3 rounded-lg bg-[var(--br-void-black)]/50 border border-[var(--br-dust-gray)]/30 text-left space-y-2">
+            <ol className="text-xs font-mono text-[var(--br-muted-cyan)] space-y-1.5 list-decimal list-inside">
+              <li>
+                Crie uma conta gratuita no{' '}
+                <a href="https://console.upstash.com" target="_blank" rel="noopener noreferrer" className="text-[var(--br-neon-orange)] hover:underline">
+                  Upstash
+                </a>
+              </li>
+              <li>
+                Clique em <strong className="text-[var(--br-hologram-white)]">QStash</strong> no menu lateral
+              </li>
+              <li>
+                Selecione a região <strong className="text-[var(--br-hologram-white)]">US-East-1</strong>{' '}
+                <span className="text-[var(--br-dust-gray)]">(obrigatório — outras regiões causam erro)</span>
+              </li>
+              <li>
+                Na seção <strong className="text-[var(--br-hologram-white)]">Quickstart</strong>, copie o{' '}
+                <strong className="text-[var(--br-hologram-white)]">QSTASH_URL</strong> e o{' '}
+                <strong className="text-[var(--br-hologram-white)]">QSTASH_TOKEN</strong>{' '}
+                <span className="text-[var(--br-dust-gray)]">(sem aspas)</span>
+              </li>
+            </ol>
+          </div>
+        </details>
       )}
     </div>
   );

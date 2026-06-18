@@ -55,6 +55,7 @@ const ProvisionSchema = z.object({
   }),
   qstash: z.object({
     token: z.string().min(30),
+    url: z.string().url(),
   }),
   redis: z.object({
     restUrl: z.string().url(),
@@ -177,54 +178,25 @@ async function validateVercelToken(token: string): Promise<{ projectId: string; 
   };
 }
 
-const QSTASH_GLOBAL_URL = 'https://qstash.upstash.io';
-const QSTASH_REGION_ENDPOINTS = [
-  QSTASH_GLOBAL_URL,
-  'https://qstash-us-east-1.upstash.io',
-  'https://qstash-eu-central-1.upstash.io',
-];
+async function validateQStashToken(url: string, token: string): Promise<void> {
+  const baseUrl = url.replace(/\/$/, '');
+  const res = await fetchWithTimeout(`${baseUrl}/v2/schedules`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
-async function validateQStashToken(token: string): Promise<string> {
-  // Tenta detectar endpoint via JWT (campo iss) — apenas para validação
-  let detectedUrl: string | null = null;
-  try {
-    const payloadB64 = token.split('.')[1];
-    if (payloadB64) {
-      const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
-      if (payload.iss && typeof payload.iss === 'string') {
-        detectedUrl = payload.iss.replace(/\/$/, '');
-      }
-    }
-  } catch {
-    // JWT indecodificável: tenta todos os endpoints
+  if (res.ok) return;
+
+  const body = await res.text().catch(() => '');
+
+  if (body.includes('not found in this region')) {
+    throw new Error('Token não pertence a esta região. Verifique se copiou a URL e o token da mesma região (US-East-1).');
   }
 
-  const endpointsToTry = detectedUrl
-    ? [detectedUrl, ...QSTASH_REGION_ENDPOINTS.filter(u => u !== detectedUrl)]
-    : QSTASH_REGION_ENDPOINTS;
-
-  for (const baseUrl of endpointsToTry) {
-    const res = await fetchWithTimeout(`${baseUrl}/v2/schedules`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    // Independente da região detectada, sempre salva o endpoint global.
-    // O endpoint global roteia automaticamente para a região correta via token,
-    // evitando o erro "user not found in this region".
-    if (res.ok) return QSTASH_GLOBAL_URL;
-
-    const body = await res.text().catch(() => '');
-
-    if (body.includes('not found in this region')) continue;
-
-    if (res.status === 401 || res.status === 403) {
-      throw new Error('Token QStash inválido. Copie o QSTASH_TOKEN do console Upstash → QStash → Details.');
-    }
-
-    throw new Error('Erro ao validar token QStash');
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('Token QStash inválido. Copie o QSTASH_TOKEN do console Upstash → QStash → Details.');
   }
 
-  throw new Error('Token QStash não reconhecido. Verifique se copiou o QSTASH_TOKEN correto no painel do Upstash.');
+  throw new Error('Erro ao validar token QStash');
 }
 
 async function validateRedisCredentials(url: string, token: string): Promise<void> {
@@ -619,7 +591,8 @@ export async function POST(req: Request) {
         subtitle: step6.subtitle,
       });
 
-      const qstashUrl = await validateQStashToken(qstash.token);
+      await validateQStashToken(qstash.url, qstash.token);
+      const qstashUrl = qstash.url;
       console.log('[provision] ✅ Step 6/12: Validate QStash - COMPLETO');
       stepIndex++;
 
