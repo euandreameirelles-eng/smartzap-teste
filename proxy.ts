@@ -28,8 +28,28 @@ const PUBLIC_API_ROUTES = [
     '/api/installer',         // Setup inicial (protegido separadamente após install)
     '/api/campaign/workflow', // Chamado internamente pelo QStash
     '/api/public',            // Rotas explicitamente públicas (lead forms, etc)
-    '/api/attendants/validate', // Validação de token de atendente (sem login)
+    '/api/attendants/validate',   // Validação de token de atendente (sem login)
 ]
+
+// Verifica se o token de atendente é válido consultando o Supabase via REST (Edge-compatível)
+async function isValidAttendantToken(token: string): Promise<boolean> {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!supabaseUrl || !serviceKey) return false
+    try {
+        const res = await fetch(
+            `${supabaseUrl}/rest/v1/attendant_tokens?select=is_active,expires_at&token=eq.${encodeURIComponent(token)}&limit=1`,
+            { headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` } }
+        )
+        if (!res.ok) return false
+        const rows: Array<{ is_active: boolean; expires_at: string | null }> = await res.json()
+        if (!rows.length || !rows[0].is_active) return false
+        if (rows[0].expires_at && new Date(rows[0].expires_at) < new Date()) return false
+        return true
+    } catch {
+        return false
+    }
+}
 
 export async function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname
@@ -149,6 +169,14 @@ export async function proxy(request: NextRequest) {
         if (sessionCookie?.value) {
             // Session exists, allow request (validation happens in API route)
             return NextResponse.next()
+        }
+
+        // Requisições do portal de atendimento carregam o token no cabeçalho
+        const attendantToken = request.headers.get('x-attendant-token')
+        if (attendantToken) {
+            const valid = await isValidAttendantToken(attendantToken)
+            if (valid) return NextResponse.next()
+            return unauthorizedResponse('Token de atendente inválido ou expirado')
         }
 
         // All other API endpoints require at least API key

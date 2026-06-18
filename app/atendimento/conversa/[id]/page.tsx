@@ -72,20 +72,22 @@ type ConversationStatus = 'ai_active' | 'human_active' | 'handoff_requested'
 // API FUNCTIONS
 // =============================================================================
 
-async function fetchConversation(id: string): Promise<Conversation> {
-  const res = await fetch(`/api/inbox/conversations/${id}`)
+type FetchFn = (url: string, options?: RequestInit) => Promise<Response>
+
+async function fetchConversation(id: string, fetchFn: FetchFn): Promise<Conversation> {
+  const res = await fetchFn(`/api/inbox/conversations/${id}`)
   if (!res.ok) throw new Error('Conversa não encontrada')
   return res.json()
 }
 
-async function fetchMessages(id: string, limit = 50): Promise<{ messages: Message[]; hasMore: boolean }> {
-  const res = await fetch(`/api/inbox/conversations/${id}/messages?limit=${limit}`)
+async function fetchMessages(id: string, fetchFn: FetchFn, limit = 50): Promise<{ messages: Message[]; hasMore: boolean }> {
+  const res = await fetchFn(`/api/inbox/conversations/${id}/messages?limit=${limit}`)
   if (!res.ok) throw new Error('Erro ao buscar mensagens')
   return res.json()
 }
 
-async function sendMessage(conversationId: string, content: string): Promise<Message> {
-  const res = await fetch(`/api/inbox/conversations/${conversationId}/messages`, {
+async function sendMessage(conversationId: string, content: string, fetchFn: FetchFn): Promise<Message> {
+  const res = await fetchFn(`/api/inbox/conversations/${conversationId}/messages`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ content, message_type: 'text' }),
@@ -97,13 +99,13 @@ async function sendMessage(conversationId: string, content: string): Promise<Mes
   return res.json()
 }
 
-async function takeoverConversation(id: string): Promise<void> {
-  const res = await fetch(`/api/inbox/conversations/${id}/takeover`, { method: 'POST' })
+async function takeoverConversation(id: string, fetchFn: FetchFn): Promise<void> {
+  const res = await fetchFn(`/api/inbox/conversations/${id}/takeover`, { method: 'POST' })
   if (!res.ok) throw new Error('Erro ao assumir conversa')
 }
 
-async function returnToBot(id: string): Promise<void> {
-  const res = await fetch(`/api/inbox/conversations/${id}/return-to-bot`, { method: 'POST' })
+async function returnToBot(id: string, fetchFn: FetchFn): Promise<void> {
+  const res = await fetchFn(`/api/inbox/conversations/${id}/return-to-bot`, { method: 'POST' })
   if (!res.ok) throw new Error('Erro ao devolver para IA')
 }
 
@@ -462,7 +464,7 @@ export default function ConversaPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const queryClient = useQueryClient()
-  const { isAuthenticated, canReply, canHandoff } = useAttendant()
+  const { isAuthenticated, canReply, canHandoff, attendantFetch } = useAttendant()
   const { resolvedTheme, setTheme } = useTheme()
 
   const conversationId = params.id as string
@@ -473,14 +475,14 @@ export default function ConversaPage() {
   // Queries
   const { data: conversation, isLoading: convLoading, error: convError } = useQuery({
     queryKey: ['conversation', conversationId],
-    queryFn: () => fetchConversation(conversationId),
+    queryFn: () => fetchConversation(conversationId, attendantFetch),
     enabled: isAuthenticated,
     refetchInterval: 5000,
   })
 
   const { data: messagesData, isLoading: msgsLoading } = useQuery({
     queryKey: ['messages', conversationId],
-    queryFn: () => fetchMessages(conversationId, 100),
+    queryFn: () => fetchMessages(conversationId, attendantFetch, 100),
     enabled: isAuthenticated,
     refetchInterval: 3000,
   })
@@ -490,7 +492,7 @@ export default function ConversaPage() {
 
   // Mutations
   const sendMutation = useMutation({
-    mutationFn: (content: string) => sendMessage(conversationId, content),
+    mutationFn: (content: string) => sendMessage(conversationId, content, attendantFetch),
     onSuccess: () => {
       setNewMessage('')
       queryClient.invalidateQueries({ queryKey: ['messages', conversationId] })
@@ -499,7 +501,7 @@ export default function ConversaPage() {
   })
 
   const takeoverMutation = useMutation({
-    mutationFn: () => takeoverConversation(conversationId),
+    mutationFn: () => takeoverConversation(conversationId, attendantFetch),
     onSuccess: () => {
       toast.success('Você assumiu o atendimento')
       queryClient.invalidateQueries({ queryKey: ['conversation', conversationId] })
@@ -508,7 +510,7 @@ export default function ConversaPage() {
   })
 
   const returnMutation = useMutation({
-    mutationFn: () => returnToBot(conversationId),
+    mutationFn: () => returnToBot(conversationId, attendantFetch),
     onSuccess: () => {
       toast.success('Conversa devolvida para IA')
       queryClient.invalidateQueries({ queryKey: ['conversation', conversationId] })

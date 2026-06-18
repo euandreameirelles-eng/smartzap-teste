@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react'
 import type { AttendantPermissions } from '@/types'
 
 // =============================================================================
@@ -28,6 +28,9 @@ interface AttendantContextType {
   canView: boolean
   canReply: boolean
   canHandoff: boolean
+
+  // Fetch com token injetado automaticamente no cabeçalho X-Attendant-Token
+  attendantFetch: (url: string, options?: RequestInit) => Promise<Response>
 }
 
 // =============================================================================
@@ -53,6 +56,7 @@ export function AttendantProvider({ children, token }: AttendantProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [attendant, setAttendant] = useState<AttendantInfo | null>(null)
+  const [activeToken, setActiveToken] = useState<string | null>(null)
 
   // Validar token na montagem
   // Se não há token na URL (ex: app instalado na tela inicial), tenta restaurar do armazenamento local
@@ -80,6 +84,7 @@ export function AttendantProvider({ children, token }: AttendantProviderProps) {
           setAttendant(data.attendant)
           setIsAuthenticated(true)
           setError(null)
+          setActiveToken(tokenToUse)
           // Salva token para funcionar quando aberto pela tela inicial (sem ?token= na URL)
           if (typeof window !== 'undefined') {
             localStorage.setItem(STORAGE_KEY, tokenToUse)
@@ -110,6 +115,13 @@ export function AttendantProvider({ children, token }: AttendantProviderProps) {
   const canReply = attendant?.permissions.canReply ?? false
   const canHandoff = attendant?.permissions.canHandoff ?? false
 
+  // Fetch que injeta automaticamente o token de atendente no cabeçalho
+  const attendantFetch = useCallback((url: string, options?: RequestInit): Promise<Response> => {
+    const headers = new Headers(options?.headers)
+    if (activeToken) headers.set('x-attendant-token', activeToken)
+    return fetch(url, { ...options, headers })
+  }, [activeToken])
+
   const contextValue: AttendantContextType = {
     isReady,
     isValidating,
@@ -120,6 +132,7 @@ export function AttendantProvider({ children, token }: AttendantProviderProps) {
     canView,
     canReply,
     canHandoff,
+    attendantFetch,
   }
 
   return (

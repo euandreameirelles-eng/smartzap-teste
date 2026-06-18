@@ -6,6 +6,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query'
+import { useAttendant } from '@/components/attendant/AttendantProvider'
 
 // =============================================================================
 // TIPOS
@@ -49,6 +50,7 @@ interface UseAttendantConversationsOptions {
 // =============================================================================
 
 async function fetchConversations(
+  fetchFn: (url: string) => Promise<Response>,
   status?: string,
   search?: string
 ): Promise<ConversationsResponse> {
@@ -57,7 +59,7 @@ async function fetchConversations(
   if (search) params.set('search', search)
 
   const url = `/api/attendant/conversations${params.toString() ? `?${params}` : ''}`
-  const response = await fetch(url)
+  const response = await fetchFn(url)
 
   if (!response.ok) {
     throw new Error('Falha ao carregar conversas')
@@ -78,9 +80,11 @@ export function useAttendantConversations(options: UseAttendantConversationsOpti
     refetchInterval = 10000, // Refetch a cada 10 segundos
   } = options
 
+  const { attendantFetch } = useAttendant()
+
   const query = useQuery({
     queryKey: ['attendant-conversations', status, search],
-    queryFn: () => fetchConversations(status, search),
+    queryFn: () => fetchConversations(attendantFetch, status, search),
     enabled,
     refetchInterval,
     staleTime: 5000, // Considera dados frescos por 5 segundos
