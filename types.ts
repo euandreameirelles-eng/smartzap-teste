@@ -553,6 +553,8 @@ export interface InboxConversation {
   unread_count: number;
   total_messages: number;
   last_message_at: string | null;
+  /** Última mensagem recebida do cliente (inbound). Usado para calcular janela de 24h do WhatsApp. NULL = nunca recebeu mensagem. */
+  last_customer_message_at: string | null;
   last_message_preview: string | null;
   automation_paused_until: string | null;
   automation_paused_by: string | null;
