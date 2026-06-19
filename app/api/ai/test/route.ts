@@ -144,6 +144,7 @@ export async function POST(req: NextRequest) {
       priority: 'normal',
       total_messages: 0,
       last_message_at: new Date().toISOString(),
+      last_customer_message_at: null,
       last_message_preview: null,
       handoff_summary: null,
       human_mode_expires_at: null,
